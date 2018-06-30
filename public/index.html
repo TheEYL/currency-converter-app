@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+    content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Currency Converter</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/material-design-lite/1.3.0/material.indigo-pink.min.css">
+    <link rel="stylesheet" href="/src/css/app.css">
+    <link rel="stylesheet" href="/src/css/main.css">
+  </head>
+  <body>
+
+    <div id="app">
+      <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+        <header class="mdl-layout__header">
+          <div class="mdl-layout__header-row">
+            <!-- Title -->
+            <span class="mdl-layout-title">Currency Converter</span>
+            <!-- Add spacer, to align navigation to the right -->
+            <div class="mdl-layout-spacer"></div>
+            <!-- Navigation. We hide it in small screens. -->
+            <nav class="mdl-navigation mdl-layout--large-screen-only">
+            </nav>
+          </div>
+        </header>
+        <main class="mdl-layout__content mat-typography">
+          <!--  -->
+          <form>
+
+            <div class="input-section mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+              <input class="mdl-textfield__input" type="number" min="1" step="0.1" id="amount" onfocusout="queryFunction()" name="input" value="1">
+              <select onchange="queryFunction()" id="inputCurrency" name="country">
+              </select>
+
+              <div id="response" class="response">???</div>
+              <select onchange="queryFunction()" id="outputCurrency" name="country">
+              </select>
+            </div>
+            <br>
+
+          </form>
+
+        </main>
+      </div>
+    </div>
+    <script defer src="/src/js/material.min.js"></script>
+    <script src="/src/js/app.js"></script>
+    <script src="/src/js/main.js"></script>
+    <script src="/src/js/idb.js"></script>
+  </body>
+</html>
