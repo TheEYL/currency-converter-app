@@ -1,5 +1,7 @@
-importScripts('/src/js/idb');
-console.log(idb);
+// import  * as idb from '/src/js/idb'
+importScripts('/src/js/idb.js')
+importScripts('/src/js/utility.js')
+
 const CACHE_STATIC_NAME = 'static-v5';
 const CACHE_DYNAMIC_NAME = 'dynamic-v2';
 const STATIC_FILES = [
@@ -18,11 +20,8 @@ const STATIC_FILES = [
 
 ];
 
-const dbPromise = idb.open('post-store', 1, function(db) {
-   if ( !db.objectStoreNames.contains('posts')) {
-     db.createObjectStore(' posts', {keyPath: 'id'})
-   }
-})
+// console.log(idb);
+
 self.addEventListener("install",  function (event) {
   console.log('[service worker]: Installing', event);
   event.waitUntil(
@@ -50,22 +49,38 @@ self.addEventListener('activate', function(event) {
 })
 
 self.addEventListener('fetch', function(event) {
-
+const url = 'https://free.currencyconverterapi.com/api/v5/convert?q=';
+if (event.request.url.indexOf(url)> -1){
+  //  console.log ( "yes" )
+  event.respondWith(fetch(event.request)
+    .then(function (res) {
+      var clonedRes = res.clone();
+      clonedRes.json()
+      .then(function(data){
+          console.log(data);
+         for (let key in data){
+          writeData(data,key);
+         }
+        });
+      return res;
+    })
+  );
+ } else {
      event.respondWith(
-       caches.match(event.request)
-       .then(function(response) {
-         if (response) return response;
-         return fetch(event.request)
-          .then(function(res) {
-            return caches.open(CACHE_DYNAMIC_NAME)
-             .then(function(cache){
-               cache.put(event.request.url, res.clone());
-               return res;
-             })
-          })
-          .catch(function(err) {
-
-          });
-       })
-     )
+           caches.match(event.request)
+           .then(function(response) {
+             if (response) return response;
+             return fetch(event.request)
+              .then(function(res) {
+                return caches.open(CACHE_DYNAMIC_NAME)
+                 .then(function(cache){
+                   cache.put(event.request.url, res.clone());
+                   return res;
+                 })
+              })
+              .catch(function(err) {
+              });
+           })
+         )
+ }
    })
